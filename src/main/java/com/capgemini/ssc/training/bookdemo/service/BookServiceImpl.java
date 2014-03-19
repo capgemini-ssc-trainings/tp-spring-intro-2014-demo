@@ -3,16 +3,20 @@ package com.capgemini.ssc.training.bookdemo.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.capgemini.ssc.training.bookdemo.model.Book;
 import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
 
+@Service
 public class BookServiceImpl implements BookService {
 
     // instance data
 
     @Autowired
+    @Qualifier("simpleBookRepository")
     BookRepository bookRepository;
 
     // public

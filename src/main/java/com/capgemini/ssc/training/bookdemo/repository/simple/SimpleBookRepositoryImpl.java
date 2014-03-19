@@ -1,14 +1,13 @@
 package com.capgemini.ssc.training.bookdemo.repository.simple;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -26,7 +25,7 @@ import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
 @Repository
 public class SimpleBookRepositoryImpl implements BookRepository {
 
-    // constants
+    // static data
 
     private final static Comparator<Book> sComparator = new Comparator<Book>() {
 
@@ -35,11 +34,17 @@ public class SimpleBookRepositoryImpl implements BookRepository {
 	}
     };
 
-    // static data
-
     private static ConcurrentMap<Integer, Book> sBooksById = new ConcurrentHashMap<>();
     private static ConcurrentMap<Integer, List<Book>> sBooksByPublicationYear = new ConcurrentHashMap<>();
     private static ConcurrentMap<String, List<Book>> sBooksByTitle = new ConcurrentHashMap<>();
+
+    static {
+	storeBook(new Book(1, "G. King", "Hibernate in Action", 2007));
+	storeBook(new Book(2,
+		"Richard S. Hall,Karl Pauls,Stuart McCulloch,David Savage",
+		"OSGi in Action", 2011));
+	storeBook(new Book(3, "Craig Walls", "pring in Action", 2011));
+    }
 
     // implementation of BookRepository
 
@@ -101,7 +106,7 @@ public class SimpleBookRepositoryImpl implements BookRepository {
 
 	if (!sBooksByPublicationYear.containsValue(book.getPublicationYear())) {
 	    sBooksByPublicationYear.put(book.getPublicationYear(),
-		    new CopyOnWriteArrayList<Book>());
+		    new ArrayList<Book>());
 	}
 
 	List<Book> books = sBooksByPublicationYear.get(book
@@ -115,8 +120,7 @@ public class SimpleBookRepositoryImpl implements BookRepository {
 	Collections.sort(books, sComparator);
 
 	if (!sBooksByTitle.containsValue(book.getTitle())) {
-	    sBooksByTitle
-		    .put(book.getTitle(), new CopyOnWriteArrayList<Book>());
+	    sBooksByTitle.put(book.getTitle(), new ArrayList<Book>());
 	}
 
 	books = sBooksByTitle.get(book.getTitle());
@@ -135,12 +139,17 @@ public class SimpleBookRepositoryImpl implements BookRepository {
 	try {
 	    Field idField = Book.class.getDeclaredField("id");
 	    idField.setAccessible(true);
-	    idField.set(book, UUID.randomUUID().hashCode());
+	    idField.set(book, nextId());
 	} catch (IllegalArgumentException | IllegalAccessException
 		| NoSuchFieldException | SecurityException e) {
 	    throw new DataAccessException(
 		    "Error occurred while generating the id", e) {
 	    };
 	}
+    }
+
+    private int nextId() {
+	return sBooksById.isEmpty() ? 1
+		: (Collections.max(sBooksById.keySet()) + 1);
     }
 }
