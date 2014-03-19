@@ -4,6 +4,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -17,6 +19,8 @@ import org.springframework.util.StopWatch;
 @Aspect
 @ManagedResource("bookdemo:type=CallMonitor")
 public class CallMonitoringAspect {
+
+    final Logger logger = LoggerFactory.getLogger(CallMonitoringAspect.class);
 
     private boolean enabled = true;
 
@@ -58,9 +62,11 @@ public class CallMonitoringAspect {
     @Around("inRepository()")
     public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable {
 	if (this.enabled) {
+	    logger.info("Monitoring of "
+		    + joinPoint.getSignature().toShortString() + " started");
 	    StopWatch sw = new StopWatch(joinPoint.toShortString());
 
-	    sw.start("invoke");
+	    sw.start(joinPoint.getSignature().getName());
 	    try {
 		return joinPoint.proceed();
 	    } finally {
@@ -69,6 +75,10 @@ public class CallMonitoringAspect {
 		    this.callCount++;
 		    this.accumulatedCallTime += sw.getTotalTimeMillis();
 		}
+		logger.info(sw.prettyPrint());
+		logger.info("Monitoring of "
+			+ joinPoint.getSignature().toShortString()
+			+ " finished");
 	    }
 	} else {
 	    return joinPoint.proceed();

@@ -14,7 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * 
  * @see AbstractBookServiceTest AbstractBookServiceTest for more details.
  */
-@ContextConfiguration(locations = { "classpath:spring/business-config.xml" })
+@ContextConfiguration(locations = { "classpath:spring/business-config.xml",
+	"classpath:spring/tools-config.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("simple")
 public class BookServiceSimpleTest extends AbstractBookServiceTest {
