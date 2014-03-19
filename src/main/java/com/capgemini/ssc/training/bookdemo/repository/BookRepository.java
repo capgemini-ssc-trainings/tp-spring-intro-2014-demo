@@ -39,5 +39,28 @@ public interface BookRepository {
      * @throws org.springframework.dao.DataRetrievalFailureException
      *             if not found
      */
-    Book findById(int id) throws DataAccessException;
+    Book findById(Integer id) throws DataAccessException;
+
+    /**
+     * Retrieve {@link Book}s from the data store by publication year, returning
+     * all books with publication year.
+     * 
+     * @param publicationYear
+     *            Value to search for
+     * @return a {@link Collection} of matching {@link Book}s (or an empty
+     *         {@link Collection} if none found)
+     */
+    Collection<Book> findByPublicationYear(int publicationYear)
+	    throws DataAccessException;
+
+    /**
+     * Retrieve {@link Book}s from the data store by title, returning all books
+     * with title starting with the given parameter.
+     * 
+     * @param title
+     *            Value to search for
+     * @return a {@link Collection} of matching {@link Book}s (or an empty
+     *         {@link Collection} if none found)
+     */
+    Collection<Book> findByTitle(String title) throws DataAccessException;
 }

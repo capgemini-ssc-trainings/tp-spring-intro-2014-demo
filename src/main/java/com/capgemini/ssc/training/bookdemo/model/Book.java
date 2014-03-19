@@ -21,12 +21,12 @@ public class Book implements Serializable {
     @Id
     @GeneratedValue
     @Column(name = "ID")
-    private long id;
+    private Integer id;
 
-    @Size(max = 100, message = "Maximal 100 characters!")
+    @Size(max = 200, message = "Maximal 200 characters!")
     @NotEmpty
-    @Column(nullable = false, name = "AUTHOR")
-    private String author;
+    @Column(nullable = false, name = "AUTHORS")
+    private String authors;
 
     @Size(max = 30, message = "Maximal 30 characters!")
     @NotEmpty
@@ -49,16 +49,32 @@ public class Book implements Serializable {
      * 
      * @param id
      *            the book id
-     * @param author
-     *            the author
+     * @param authors
+     *            the authors
      * @param title
      *            the title
      * @param publicationYear
      *            the publication year
      */
-    public Book(Long id, String author, String title, int publicationYear) {
+    public Book(Integer id, String authors, String title, int publicationYear) {
+	this(authors, title, publicationYear);
 	this.id = id;
-	this.author = author;
+    }
+
+    /**
+     * Constructor
+     * 
+     * @param id
+     *            the book id
+     * @param authors
+     *            the authors
+     * @param title
+     *            the title
+     * @param publicationYear
+     *            the publication year
+     */
+    public Book(String authors, String title, int publicationYear) {
+	this.authors = authors;
 	this.title = title;
 	this.publicationYear = publicationYear;
     }
@@ -76,7 +92,7 @@ public class Book implements Serializable {
      * Sets the publication year
      * 
      * @param publicationYear
-     *            the new publiction year
+     *            the new publication year
      */
     public void setPublicationYear(int publicationYear) {
 	this.publicationYear = publicationYear;
@@ -87,27 +103,27 @@ public class Book implements Serializable {
      * 
      * @return the value of the id property
      */
-    public long getId() {
+    public Integer getId() {
 	return id;
     }
 
     /**
-     * Gets the author
+     * Gets the authors
      * 
-     * @return the value of the author property
+     * @return the value of the authors property
      */
-    public String getAuthor() {
-	return author;
+    public String getAuthors() {
+	return authors;
     }
 
     /**
      * Sets the author
      * 
-     * @param author
-     *            the new author
+     * @param authors
+     *            the new authors
      */
-    public void setAuthor(String author) {
-	this.author = author;
+    public void setAuthors(String authors) {
+	this.authors = authors;
     }
 
     /**
