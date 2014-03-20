@@ -17,8 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "classpath:spring/business-config.xml",
 		"classpath:spring/tools-config.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles("simple")
-public class BookServiceSimpleTest extends AbstractBookServiceTest {
+@ActiveProfiles("jpa")
+public class BookServiceJpaTest extends AbstractBookServiceTest {
 	@Inject
 	private BookService bookService;
 

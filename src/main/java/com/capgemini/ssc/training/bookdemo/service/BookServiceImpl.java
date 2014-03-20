@@ -13,60 +13,60 @@ import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
 @Service
 public class BookServiceImpl implements BookService {
 
-    // instance data
+	// instance data
 
-    @Autowired
-    @Qualifier("simpleBookRepository")
-    BookRepository bookRepository;
+	@Autowired
+	@Qualifier("simpleBookRepository")
+	BookRepository bookRepository;
 
-    // public
+	// public
 
-    /**
-     * Sets the instance of {@link BookRepository}
-     * 
-     * @param bookRepository
-     *            the instance of {@link BookRepository}
-     */
-    public void setBookRepository(BookRepository bookRepository) {
-	this.bookRepository = bookRepository;
-    }
+	/**
+	 * Sets the instance of {@link BookRepository}
+	 * 
+	 * @param bookRepository
+	 *            the instance of {@link BookRepository}
+	 */
+	public void setBookRepository(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
+	}
 
-    // implementation of BookService
+	// implementation of BookService
 
-    /**
-     * {@inheritDoc}
-     */
-    public void save(Book book) throws DataAccessException {
-	bookRepository.save(book);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public void save(Book book) throws DataAccessException {
+		bookRepository.save(book);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public Collection<Book> findAll() {
-	return bookRepository.findAll();
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public Collection<Book> findAll() {
+		return bookRepository.findAll();
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public Book findById(Integer id) throws DataAccessException {
-	return bookRepository.findById(id);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public Book findById(Integer id) throws DataAccessException {
+		return bookRepository.findById(id);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public Collection<Book> findByPublicationYear(int publicationYear)
-	    throws DataAccessException {
-	return bookRepository.findByPublicationYear(publicationYear);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public Collection<Book> findByPublicationYear(int publicationYear)
+			throws DataAccessException {
+		return bookRepository.findByPublicationYear(publicationYear);
+	}
 
-    /**
-     * {@inheritDoc}
-     */
-    public Collection<Book> findByTitle(String title)
-	    throws DataAccessException {
-	return bookRepository.findByTitle(title);
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	public Collection<Book> findByTitle(String title)
+			throws DataAccessException {
+		return bookRepository.findByTitle(title);
+	}
 }
