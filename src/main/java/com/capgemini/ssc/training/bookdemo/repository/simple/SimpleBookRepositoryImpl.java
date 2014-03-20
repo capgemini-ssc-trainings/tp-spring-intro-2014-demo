@@ -25,131 +25,131 @@ import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
 @Repository
 public class SimpleBookRepositoryImpl implements BookRepository {
 
-	// static data
+    // static data
 
-	private final static Comparator<Book> sComparator = new Comparator<Book>() {
+    private final static Comparator<Book> sComparator = new Comparator<Book>() {
 
-		public int compare(Book o1, Book o2) {
-			return o1.getId().compareTo(o2.getId());
-		}
-	};
+	public int compare(Book o1, Book o2) {
+	    return o1.getId().compareTo(o2.getId());
+	}
+    };
 
-	private static ConcurrentMap<Integer, Book> sBooksById = new ConcurrentHashMap<>();
-	private static ConcurrentMap<Integer, List<Book>> sBooksByPublicationYear = new ConcurrentHashMap<>();
-	private static ConcurrentMap<String, List<Book>> sBooksByTitle = new ConcurrentHashMap<>();
+    private static ConcurrentMap<Integer, Book> sBooksById = new ConcurrentHashMap<>();
+    private static ConcurrentMap<Integer, List<Book>> sBooksByPublicationYear = new ConcurrentHashMap<>();
+    private static ConcurrentMap<String, List<Book>> sBooksByTitle = new ConcurrentHashMap<>();
 
-	static {
-		storeBook(new Book(1, "G. King", "Hibernate in Action", 2007));
-		storeBook(new Book(2,
-				"Richard S. Hall,Karl Pauls,Stuart McCulloch,David Savage",
-				"OSGi in Action", 2011));
-		storeBook(new Book(3, "Craig Walls", "pring in Action", 2011));
+    static {
+	storeBook(new Book(1, "G. King", "Hibernate in Action", 2007));
+	storeBook(new Book(2,
+		"Richard S. Hall,Karl Pauls,Stuart McCulloch,David Savage",
+		"OSGi in Action", 2011));
+	storeBook(new Book(3, "Craig Walls", "pring in Action", 2011));
+    }
+
+    // implementation of BookRepository
+
+    /**
+     * {@inheritDoc}
+     */
+    public void save(Book book) throws DataAccessException {
+	if (null == book.getId()) {
+	    generateId(book);
 	}
 
-	// implementation of BookRepository
+	storeBook(book);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void save(Book book) throws DataAccessException {
-		if (null == book.getId()) {
-			generateId(book);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    public Collection<Book> findAll() {
+	return sBooksById.values();
+    }
 
-		storeBook(book);
+    /**
+     * {@inheritDoc}
+     */
+    public Book findById(Integer id) throws DataAccessException {
+	if (!sBooksById.containsKey(id)) {
+	    throw new DataRetrievalFailureException("No book found with id "
+		    + id);
+	}
+	return sBooksById.get(id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Collection<Book> findByPublicationYear(int publicationYear)
+	    throws DataAccessException {
+	if (!sBooksByPublicationYear.containsKey(publicationYear)) {
+	    return Collections.emptyList();
+	}
+	return sBooksByPublicationYear.get(publicationYear);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Collection<Book> findByTitle(String title)
+	    throws DataAccessException {
+	if (!sBooksByTitle.containsKey(title)) {
+	    return Collections.emptyList();
+	}
+	return sBooksByTitle.get(title);
+    }
+
+    // private
+
+    private static synchronized void storeBook(Book book) {
+	sBooksById.put(book.getId(), book);
+
+	if (!sBooksByPublicationYear.containsValue(book.getPublicationYear())) {
+	    sBooksByPublicationYear.put(book.getPublicationYear(),
+		    new ArrayList<Book>());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Collection<Book> findAll() {
-		return sBooksById.values();
+	List<Book> books = sBooksByPublicationYear.get(book
+		.getPublicationYear());
+
+	int position = Collections.binarySearch(books, book, sComparator);
+	if (position > -1) {
+	    books.remove(position);
+	}
+	books.add(book);
+	Collections.sort(books, sComparator);
+
+	if (!sBooksByTitle.containsValue(book.getTitle())) {
+	    sBooksByTitle.put(book.getTitle(), new ArrayList<Book>());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Book findById(Integer id) throws DataAccessException {
-		if (!sBooksById.containsKey(id)) {
-			throw new DataRetrievalFailureException("No book found with id "
-					+ id);
-		}
-		return sBooksById.get(id);
+	books = sBooksByTitle.get(book.getTitle());
+
+	position = Collections.binarySearch(books, book, sComparator);
+	if (position > -1) {
+	    books.remove(position);
 	}
+	books.add(book);
+	Collections.sort(books, sComparator);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Collection<Book> findByPublicationYear(int publicationYear)
-			throws DataAccessException {
-		if (!sBooksByPublicationYear.containsKey(publicationYear)) {
-			return Collections.emptyList();
-		}
-		return sBooksByPublicationYear.get(publicationYear);
+    }
+
+    @SuppressWarnings("serial")
+    private void generateId(Book book) {
+	try {
+	    Field idField = Book.class.getDeclaredField("id");
+	    idField.setAccessible(true);
+	    idField.set(book, nextId());
+	} catch (IllegalArgumentException | IllegalAccessException
+		| NoSuchFieldException | SecurityException e) {
+	    throw new DataAccessException(
+		    "Error occurred while generating the id", e) {
+	    };
 	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Collection<Book> findByTitle(String title)
-			throws DataAccessException {
-		if (!sBooksByTitle.containsKey(title)) {
-			return Collections.emptyList();
-		}
-		return sBooksByTitle.get(title);
-	}
-
-	// private
-
-	private static synchronized void storeBook(Book book) {
-		sBooksById.put(book.getId(), book);
-
-		if (!sBooksByPublicationYear.containsValue(book.getPublicationYear())) {
-			sBooksByPublicationYear.put(book.getPublicationYear(),
-					new ArrayList<Book>());
-		}
-
-		List<Book> books = sBooksByPublicationYear.get(book
-				.getPublicationYear());
-
-		int position = Collections.binarySearch(books, book, sComparator);
-		if (position > -1) {
-			books.remove(position);
-		}
-		books.add(book);
-		Collections.sort(books, sComparator);
-
-		if (!sBooksByTitle.containsValue(book.getTitle())) {
-			sBooksByTitle.put(book.getTitle(), new ArrayList<Book>());
-		}
-
-		books = sBooksByTitle.get(book.getTitle());
-
-		position = Collections.binarySearch(books, book, sComparator);
-		if (position > -1) {
-			books.remove(position);
-		}
-		books.add(book);
-		Collections.sort(books, sComparator);
-
-	}
-
-	@SuppressWarnings("serial")
-	private void generateId(Book book) {
-		try {
-			Field idField = Book.class.getDeclaredField("id");
-			idField.setAccessible(true);
-			idField.set(book, nextId());
-		} catch (IllegalArgumentException | IllegalAccessException
-				| NoSuchFieldException | SecurityException e) {
-			throw new DataAccessException(
-					"Error occurred while generating the id", e) {
-			};
-		}
-	}
-
-	private int nextId() {
-		return sBooksById.isEmpty() ? 1
-				: (Collections.max(sBooksById.keySet()) + 1);
-	}
+    private int nextId() {
+	return sBooksById.isEmpty() ? 1
+		: (Collections.max(sBooksById.keySet()) + 1);
+    }
 }

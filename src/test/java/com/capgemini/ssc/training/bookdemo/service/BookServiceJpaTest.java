@@ -15,20 +15,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @see AbstractBookServiceTest AbstractBookServiceTest for more details.
  */
 @ContextConfiguration(locations = { "classpath:spring/business-config.xml",
-		"classpath:spring/tools-config.xml" })
+	"classpath:spring/tools-config.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles("jpa")
 public class BookServiceJpaTest extends AbstractBookServiceTest {
-	@Inject
-	private BookService bookService;
+    @Inject
+    private BookService bookService;
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Override
-	protected BookService getBookService() {
-		return bookService;
-		// return applicationContext.getBean(BookService.class);
-	}
+    @Override
+    protected BookService getBookService() {
+	return bookService;
+	// return applicationContext.getBean(BookService.class);
+    }
 
 }

@@ -50,91 +50,91 @@ import com.capgemini.ssc.training.bookdemo.model.Book;
  * </ul>
  */
 public abstract class AbstractBookServiceTest {
-	final Logger logger = LoggerFactory.getLogger(this.getClass());
-	@Rule
-	public TestName name = new TestName();
+    final Logger logger = LoggerFactory.getLogger(this.getClass());
+    @Rule
+    public TestName name = new TestName();
 
-	protected abstract BookService getBookService();
+    protected abstract BookService getBookService();
 
-	@Test
-	public void findBookByIdSuccessfull() {
-		Book book = getBookService().findById(1);
-		assertNotNull(book);
-		assertEquals(2007, book.getPublicationYear());
-		assertEquals("G. King", book.getAuthors());
-		assertEquals("Hibernate in Action", book.getTitle());
+    @Test
+    public void findBookByIdSuccessfull() {
+	Book book = getBookService().findById(1);
+	assertNotNull(book);
+	assertEquals(2007, book.getPublicationYear());
+	assertEquals("G. King", book.getAuthors());
+	assertEquals("Hibernate in Action", book.getTitle());
+    }
+
+    @Test(expected = DataAccessException.class)
+    public void findBookByIdFailed() {
+	getBookService().findById(10);
+	assertTrue(false);
+    }
+
+    @Test
+    public void findBookByPublicationYearSuccessfull() {
+	Collection<Book> books = getBookService().findByPublicationYear(2007);
+	assertEquals(1, books.size());
+	for (Book book : books) {
+	    assertEquals(2007, book.getPublicationYear());
+	}
+    }
+
+    @Test
+    public void findBookByPublicationYearFailed() {
+	Collection<Book> books = getBookService().findByPublicationYear(2077);
+	assertEquals(0, books.size());
+    }
+
+    @Test
+    public void findBookByTitleSuccessfull() {
+	Collection<Book> books = getBookService().findByTitle(
+		"Hibernate in Action");
+	assertEquals(1, books.size());
+	for (Book book : books) {
+	    assertEquals("Hibernate in Action", book.getTitle());
+	}
+    }
+
+    @Test
+    public void findBookByTitleFailed() {
+	Collection<Book> books = getBookService().findByTitle(
+		"Not existing title");
+	assertEquals(0, books.size());
+    }
+
+    @Test
+    public void createBook() {
+	Book newBook = new Book(4, "W.Wheeler, J.White", "Spring in Practice",
+		2013);
+	getBookService().save(newBook);
+
+	newBook = getBookService().findById(4);
+	assertNotNull(newBook);
+	assertEquals(2013, newBook.getPublicationYear());
+	assertEquals("W.Wheeler, J.White", newBook.getAuthors());
+	assertEquals("Spring in Practice", newBook.getTitle());
+
+	Collection<Book> books = getBookService().findByPublicationYear(2013);
+	assertEquals(1, books.size());
+	for (Book book : books) {
+	    assertEquals(2013, book.getPublicationYear());
 	}
 
-	@Test(expected = DataAccessException.class)
-	public void findBookByIdFailed() {
-		getBookService().findById(10);
-		assertTrue(false);
+	books = getBookService().findByTitle("Spring in Practice");
+	assertEquals(1, books.size());
+	for (Book book : books) {
+	    assertEquals("Spring in Practice", book.getTitle());
 	}
+    }
 
-	@Test
-	public void findBookByPublicationYearSuccessfull() {
-		Collection<Book> books = getBookService().findByPublicationYear(2007);
-		assertEquals(1, books.size());
-		for (Book book : books) {
-			assertEquals(2007, book.getPublicationYear());
-		}
-	}
+    @Before
+    public void before() {
+	logger.info("Starting the test method {}", name.getMethodName());
+    }
 
-	@Test
-	public void findBookByPublicationYearFailed() {
-		Collection<Book> books = getBookService().findByPublicationYear(2077);
-		assertEquals(0, books.size());
-	}
-
-	@Test
-	public void findBookByTitleSuccessfull() {
-		Collection<Book> books = getBookService().findByTitle(
-				"Hibernate in Action");
-		assertEquals(1, books.size());
-		for (Book book : books) {
-			assertEquals("Hibernate in Action", book.getTitle());
-		}
-	}
-
-	@Test
-	public void findBookByTitleFailed() {
-		Collection<Book> books = getBookService().findByTitle(
-				"Not existing title");
-		assertEquals(0, books.size());
-	}
-
-	@Test
-	public void createBook() {
-		Book newBook = new Book(4, "W.Wheeler, J.White", "Spring in Practice",
-				2013);
-		getBookService().save(newBook);
-
-		newBook = getBookService().findById(4);
-		assertNotNull(newBook);
-		assertEquals(2013, newBook.getPublicationYear());
-		assertEquals("W.Wheeler, J.White", newBook.getAuthors());
-		assertEquals("Spring in Practice", newBook.getTitle());
-
-		Collection<Book> books = getBookService().findByPublicationYear(2013);
-		assertEquals(1, books.size());
-		for (Book book : books) {
-			assertEquals(2013, book.getPublicationYear());
-		}
-
-		books = getBookService().findByTitle("Spring in Practice");
-		assertEquals(1, books.size());
-		for (Book book : books) {
-			assertEquals("Spring in Practice", book.getTitle());
-		}
-	}
-
-	@Before
-	public void before() {
-		logger.info("Starting the test method {}", name.getMethodName());
-	}
-
-	@After
-	public void after() {
-		logger.info("The test method {} finished", name.getMethodName());
-	}
+    @After
+    public void after() {
+	logger.info("The test method {} finished", name.getMethodName());
+    }
 }

@@ -17,16 +17,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "classpath:spring/business-config-simple.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class BookServiceSimpleConfigTest extends AbstractBookServiceTest {
-	@Inject
-	private BookService bookService;
+    @Inject
+    private BookService bookService;
 
-	@Autowired
-	private ApplicationContext applicationContext;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-	@Override
-	protected BookService getBookService() {
-		return bookService;
-		// return applicationContext.getBean(BookService.class);
-	}
+    @Override
+    protected BookService getBookService() {
+	return bookService;
+	// return applicationContext.getBean(BookService.class);
+    }
 
 }
