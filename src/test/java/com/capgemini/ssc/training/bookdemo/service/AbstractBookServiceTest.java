@@ -14,6 +14,7 @@ import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -53,6 +54,9 @@ public abstract class AbstractBookServiceTest {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Rule
     public TestName name = new TestName();
+    
+    @Autowired
+    private ApplicationContext applicationContext;
 
     protected abstract BookService getBookService();
 
