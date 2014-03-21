@@ -439,6 +439,12 @@
                     </webApp>
                 </configuration>
             </plugin>
+            <!--
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+			</plugin>
+			-->
         </plugins>
     </build>
 
