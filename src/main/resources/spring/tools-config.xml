@@ -11,6 +11,20 @@
     <aop:aspectj-autoproxy>
         <aop:include name="callMonitor" />
     </aop:aspectj-autoproxy>
+    
+    <!-- 
+    	xml style aop configuration
+    	- enable this part
+    	- remove the aop:aspectj-autoproxy
+    -->
+    <!-- 
+    <aop:config>
+    	<aop:pointcut expression="within(@org.springframework.stereotype.Repository *)" id="callMonitoring"/>
+    	<aop:aspect ref="callMonitor">
+    		<aop:around method="monitor" pointcut-ref="callMonitoring"/>
+    	</aop:aspect>
+    </aop:config>
+    -->
 
     <!-- 
         Call monitoring aspect that monitors call count and call invocation 

@@ -60,7 +60,7 @@ public class CallMonitoringAspect {
     }
 
     @Around("inRepository()")
-    public Object invoke(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object monitor(ProceedingJoinPoint joinPoint) throws Throwable {
 	if (this.enabled) {
 	    logger.info("Monitoring of "
 		    + joinPoint.getSignature().toShortString() + " started");
