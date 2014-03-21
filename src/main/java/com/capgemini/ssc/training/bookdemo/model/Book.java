@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -18,6 +20,9 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Table(name = "BOOK")
+@NamedQueries(value = {
+	@NamedQuery(name = "findByTitle", query = "SELECT DISTINCT book FROM Book book WHERE book.title LIKE :title"),
+	@NamedQuery(name = "findByPublicationYear", query = "SELECT DISTINCT book FROM Book book WHERE book.publicationYear = :publicationYear") })
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 5472061873121793580L;

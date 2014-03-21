@@ -2,7 +2,7 @@ package com.capgemini.ssc.training.bookdemo.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNull;
 
 import java.util.Collection;
 
@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.capgemini.ssc.training.bookdemo.model.Book;
@@ -54,7 +53,7 @@ public abstract class AbstractBookServiceTest {
     final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Rule
     public TestName name = new TestName();
-    
+
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -69,10 +68,16 @@ public abstract class AbstractBookServiceTest {
 	assertEquals("Hibernate in Action", book.getTitle());
     }
 
-    @Test(expected = DataAccessException.class)
+    @Test()
     public void findBookByIdFailed() {
-	getBookService().findById(10);
-	assertTrue(false);
+	Book book = getBookService().findById(10);
+	assertNull(book);
+    }
+
+    @Test()
+    public void findAll() {
+	Collection<Book> books = getBookService().findAll();
+	assertEquals(3, books.size());
     }
 
     @Test
@@ -108,8 +113,8 @@ public abstract class AbstractBookServiceTest {
     }
 
     @Test
-    public void createBook() {
-	Book newBook = new Book(4, "W.Wheeler, J.White", "Spring in Practice",
+    public void createAndDeleteBook() {
+	Book newBook = new Book("W.Wheeler, J.White", "Spring in Practice",
 		2013);
 	getBookService().save(newBook);
 
@@ -130,6 +135,10 @@ public abstract class AbstractBookServiceTest {
 	for (Book book : books) {
 	    assertEquals("Spring in Practice", book.getTitle());
 	}
+
+	getBookService().delete(4);
+	newBook = getBookService().findById(4);
+	assertNull(newBook);
     }
 
     @Before

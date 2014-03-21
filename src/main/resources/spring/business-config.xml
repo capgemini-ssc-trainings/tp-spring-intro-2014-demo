@@ -54,13 +54,31 @@
 			p:packagesToScan="com.capgemini.ssc.training.bookdemo.model" 
 			p:jpaProperties-ref="hibernateProperties"/>
     
+    	<!-- enables scanning for @Transactional annotations -->
+    	<tx:annotation-driven />
     
-    
+    	<!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+              p:entityManagerFactory-ref="entityManagerFactory"/>
+
+
+        <!--
+			Post-processor to perform exception translation on @Repository classes (from native
+			exceptions such as JPA PersistenceExceptions to Spring's DataAccessException hierarchy).
+		-->
+        <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+        
     </beans>
 
 	<beans profile="jpa">
+		
+		<!-- Loads JPA beans. Will automatically be transactional due to @Transactional. 
+			 EntityManager will be auto-injected due to @PersistenceContext. 
+			 PersistenceExceptions will be auto-translated due to @Repository. 
+		-->
 		<context:component-scan
-            base-package="com.capgemini.ssc.training.bookdemo.repository.simple" />
+            base-package="com.capgemini.ssc.training.bookdemo.repository.jpa" />
+            
 	</beans>
 
 

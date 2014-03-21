@@ -3,9 +3,9 @@ package com.capgemini.ssc.training.bookdemo.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.ssc.training.bookdemo.model.Book;
 import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
@@ -16,7 +16,7 @@ public class BookServiceImpl implements BookService {
     // instance data
 
     @Autowired
-    @Qualifier("simpleBookRepository")
+    // @Qualifier("jpaBookRepository")
     BookRepository bookRepository;
 
     // public
@@ -36,6 +36,7 @@ public class BookServiceImpl implements BookService {
     /**
      * {@inheritDoc}
      */
+    @Transactional()
     public void save(Book book) throws DataAccessException {
 	bookRepository.save(book);
     }
@@ -43,6 +44,7 @@ public class BookServiceImpl implements BookService {
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     public Collection<Book> findAll() {
 	return bookRepository.findAll();
     }
@@ -50,6 +52,7 @@ public class BookServiceImpl implements BookService {
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     public Book findById(Integer id) throws DataAccessException {
 	return bookRepository.findById(id);
     }
@@ -57,6 +60,7 @@ public class BookServiceImpl implements BookService {
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     public Collection<Book> findByPublicationYear(int publicationYear)
 	    throws DataAccessException {
 	return bookRepository.findByPublicationYear(publicationYear);
@@ -65,8 +69,17 @@ public class BookServiceImpl implements BookService {
     /**
      * {@inheritDoc}
      */
+    @Transactional(readOnly = true)
     public Collection<Book> findByTitle(String title)
 	    throws DataAccessException {
 	return bookRepository.findByTitle(title);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Transactional
+    public void delete(Integer id) throws DataAccessException {
+	bookRepository.delete(id);
     }
 }

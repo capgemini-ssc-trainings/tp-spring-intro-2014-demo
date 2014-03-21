@@ -59,4 +59,14 @@ public interface BookService {
      *         {@link Collection} if none found)
      */
     Collection<Book> findByTitle(String title) throws DataAccessException;
+    
+    /**
+     * Delete a {@link Book} with the given id from the data store.
+     * 
+     * @param id
+     *            the id to search for
+     * @throws org.springframework.dao.DataRetrievalFailureException
+     *             if not found
+     */
+    void delete(Integer id) throws DataAccessException;
 }

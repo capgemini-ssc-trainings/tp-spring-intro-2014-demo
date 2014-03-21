@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentMap;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Repository;
 
 import com.capgemini.ssc.training.bookdemo.model.Book;
@@ -70,10 +69,6 @@ public class SimpleBookRepositoryImpl implements BookRepository {
      * {@inheritDoc}
      */
     public Book findById(Integer id) throws DataAccessException {
-	if (!sBooksById.containsKey(id)) {
-	    throw new DataRetrievalFailureException("No book found with id "
-		    + id);
-	}
 	return sBooksById.get(id);
     }
 
@@ -99,7 +94,40 @@ public class SimpleBookRepositoryImpl implements BookRepository {
 	return sBooksByTitle.get(title);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public void delete(Integer id) throws DataAccessException {
+	Book book = findById(id);
+	if (null != book) {
+	    deleteBook(book);
+	}
+    }
+
     // private
+
+    private static synchronized void deleteBook(Book book) {
+	if (sBooksByPublicationYear.containsValue(book.getPublicationYear())) {
+	    List<Book> books = sBooksByPublicationYear.get(book
+		    .getPublicationYear());
+
+	    int position = Collections.binarySearch(books, book, sComparator);
+	    if (position > -1) {
+		books.remove(position);
+	    }
+	}
+
+	if (sBooksByTitle.containsValue(book.getTitle())) {
+	    List<Book> books = sBooksByTitle.get(book.getTitle());
+
+	    int position = Collections.binarySearch(books, book, sComparator);
+	    if (position > -1) {
+		books.remove(position);
+	    }
+	}
+
+	sBooksById.remove(book.getId());
+    }
 
     private static synchronized void storeBook(Book book) {
 	sBooksById.put(book.getId(), book);
@@ -152,4 +180,5 @@ public class SimpleBookRepositoryImpl implements BookRepository {
 	return sBooksById.isEmpty() ? 1
 		: (Collections.max(sBooksById.keySet()) + 1);
     }
+
 }

@@ -42,6 +42,16 @@ public interface BookRepository {
     Book findById(Integer id) throws DataAccessException;
 
     /**
+     * Delete a {@link Book} with the given id from the data store.
+     * 
+     * @param id
+     *            the id to search for
+     * @throws org.springframework.dao.DataRetrievalFailureException
+     *             if not found
+     */
+    void delete(Integer id) throws DataAccessException;
+
+    /**
      * Retrieve {@link Book}s from the data store by publication year, returning
      * all books with publication year.
      * 
