@@ -3,6 +3,8 @@ package com.capgemini.ssc.training.bookdemo.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,7 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Transactional()
+    @CacheEvict(value="books", allEntries=true)
     public void save(Book book) throws DataAccessException {
 	bookRepository.save(book);
     }
@@ -45,6 +48,7 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Transactional(readOnly = true)
+    @Cacheable(value="books")
     public Collection<Book> findAll() {
 	return bookRepository.findAll();
     }
@@ -61,6 +65,7 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Transactional(readOnly = true)
+    @Cacheable(value="books")
     public Collection<Book> findByPublicationYear(int publicationYear)
 	    throws DataAccessException {
 	return bookRepository.findByPublicationYear(publicationYear);
@@ -70,6 +75,7 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Transactional(readOnly = true)
+    @Cacheable(value="books")
     public Collection<Book> findByTitle(String title)
 	    throws DataAccessException {
 	return bookRepository.findByTitle(title);
@@ -79,6 +85,7 @@ public class BookServiceImpl implements BookService {
      * {@inheritDoc}
      */
     @Transactional
+    @CacheEvict(value="books", allEntries=true)
     public void delete(Integer id) throws DataAccessException {
 	bookRepository.delete(id);
     }
