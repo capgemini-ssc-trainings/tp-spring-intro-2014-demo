@@ -5,14 +5,14 @@
 	<weaver>
 
 		<!-- only weave classes in our application-specific packages -->
-		<include within="com.capgemini.ssc.training.bookdemo.*" />
+		<include within="com.capgemini.ssc.springintro.bookdemo.*" />
 
 	</weaver>
 
 	<aspects>
 
 		<!-- weave in just this aspect -->
-		<aspect name="com.capgemini.ssc.training.bookdemo.aspects.CallMonitoringAspect" />
+		<aspect name="com.capgemini.ssc.springintro.bookdemo.aspects.CallMonitoringAspect" />
 
 	</aspects>
 

@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.repository.jpa;
+package com.capgemini.ssc.springintro.bookdemo.repository.jpa;
 
 import java.util.Collection;
 
@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.capgemini.ssc.training.bookdemo.model.Book;
-import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
+import com.capgemini.ssc.springintro.bookdemo.model.Book;
+import com.capgemini.ssc.springintro.bookdemo.repository.BookRepository;
 
 /**
  * JPA implementation of {@link BookRepository}.

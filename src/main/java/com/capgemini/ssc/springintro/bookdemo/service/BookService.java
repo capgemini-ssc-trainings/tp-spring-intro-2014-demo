@@ -1,19 +1,15 @@
-package com.capgemini.ssc.training.bookdemo.repository;
+package com.capgemini.ssc.springintro.bookdemo.service;
 
 import java.util.Collection;
 
 import org.springframework.dao.DataAccessException;
 
-import com.capgemini.ssc.training.bookdemo.model.Book;
+import com.capgemini.ssc.springintro.bookdemo.model.Book;
 
 /**
- * Repository class for {@link Book} domain objects
- * <p>
- * All method names are compliant with Spring Data naming conventions so this
- * interface can easily be extended for Spring Data See
+ * Service class to manage {@link Book}s
  */
-public interface BookRepository {
-
+public interface BookService {
     /**
      * Save a {@link Book} to the data store, either inserting or updating it.
      * 
@@ -42,16 +38,6 @@ public interface BookRepository {
     Book findById(Integer id) throws DataAccessException;
 
     /**
-     * Delete a {@link Book} with the given id from the data store.
-     * 
-     * @param id
-     *            the id to search for
-     * @throws org.springframework.dao.DataRetrievalFailureException
-     *             if not found
-     */
-    void delete(Integer id) throws DataAccessException;
-
-    /**
      * Retrieve {@link Book}s from the data store by publication year, returning
      * all books with publication year.
      * 
@@ -73,4 +59,14 @@ public interface BookRepository {
      *         {@link Collection} if none found)
      */
     Collection<Book> findByTitle(String title) throws DataAccessException;
+    
+    /**
+     * Delete a {@link Book} with the given id from the data store.
+     * 
+     * @param id
+     *            the id to search for
+     * @throws org.springframework.dao.DataRetrievalFailureException
+     *             if not found
+     */
+    void delete(Integer id) throws DataAccessException;
 }

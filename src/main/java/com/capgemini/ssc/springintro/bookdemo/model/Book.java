@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.model;
+package com.capgemini.ssc.springintro.bookdemo.model;
 
 import java.io.Serializable;
 

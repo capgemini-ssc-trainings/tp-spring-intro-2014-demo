@@ -1,23 +1,27 @@
-package com.capgemini.ssc.training.bookdemo.service;
+package com.capgemini.ssc.springintro.bookdemo.service;
 
 import javax.inject.Inject;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.capgemini.ssc.springintro.bookdemo.service.BookService;
+
 /**
- * Integration test using the simple book repository and dependency
- * configuration in xml file.
+ * Integration test using the jpa profile.
  * 
  * @see AbstractBookServiceTest AbstractBookServiceTest for more details.
  */
-@ContextConfiguration(locations = { "classpath:spring/business-config-simple.xml" })
+@ContextConfiguration(locations = { "classpath:spring/business-config.xml",
+	"classpath:spring/tools-config.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("jpa")
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class BookServiceSimpleConfigTest extends AbstractBookServiceTest {
+public class BookServiceJpaTest extends AbstractBookServiceTest {
     @Inject
     private BookService bookService;
 

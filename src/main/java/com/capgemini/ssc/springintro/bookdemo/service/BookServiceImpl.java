@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.service;
+package com.capgemini.ssc.springintro.bookdemo.service;
 
 import java.util.Collection;
 
@@ -9,8 +9,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.capgemini.ssc.training.bookdemo.model.Book;
-import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
+import com.capgemini.ssc.springintro.bookdemo.model.Book;
+import com.capgemini.ssc.springintro.bookdemo.repository.BookRepository;
 
 @Service
 public class BookServiceImpl implements BookService {

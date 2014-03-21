@@ -16,7 +16,7 @@
 
    
     <context:component-scan
-        base-package="com.capgemini.ssc.training.bookdemo.service" />
+        base-package="com.capgemini.ssc.springintro.bookdemo.service" />
         
     
     
@@ -28,7 +28,7 @@
 
     <beans profile="simple">
         <context:component-scan
-            base-package="com.capgemini.ssc.training.bookdemo.repository.simple" />
+            base-package="com.capgemini.ssc.springintro.bookdemo.repository.simple" />
     </beans>
     
     <beans profile="jpa,spring-data-jpa">
@@ -53,7 +53,7 @@
 			p:dataSource-ref="dataSource" 
 			p:jpaVendorAdapter-ref="jpaAdapter"
 			p:persistenceUnitName="bookdemo" 
-			p:packagesToScan="com.capgemini.ssc.training.bookdemo.model" 
+			p:packagesToScan="com.capgemini.ssc.springintro.bookdemo.model" 
 			p:jpaProperties-ref="hibernateProperties"/>
     
     	<!-- enables scanning for @Transactional annotations -->
@@ -73,7 +73,7 @@
 			</tx:attributes>
 		</tx:advice>
 		<aop:config> 
-			<aop:pointcut id="bookServiceMethods" expression="execution(* com.capgemini.ssc.training.bookdemo.service.BookService.*(..))" /> 
+			<aop:pointcut id="bookServiceMethods" expression="execution(* com.capgemini.ssc.springintro.bookdemo.service.BookService.*(..))" /> 
 			<aop:advisor  advice-ref="txAdvice" pointcut-ref="bookServiceMethods" /> 
 		</aop:config>
 		--> 
@@ -99,12 +99,12 @@
 			 PersistenceExceptions will be auto-translated due to @Repository. 
 		-->
 		<context:component-scan
-            base-package="com.capgemini.ssc.training.bookdemo.repository.jpa" />
+            base-package="com.capgemini.ssc.springintro.bookdemo.repository.jpa" />
             
 	</beans>
 
  	<beans profile="spring-data-jpa">
- 		<jpa:repositories base-package="com.capgemini.ssc.training.bookdemo.repository.springdatajpa" />
+ 		<jpa:repositories base-package="com.capgemini.ssc.springintro.bookdemo.repository.springdatajpa" />
  	</beans>
 
 </beans>

@@ -39,7 +39,7 @@
         time 
     -->
     <bean id="callMonitor"
-        class="com.capgemini.ssc.training.bookdemo.aspects.CallMonitoringAspect" />
+        class="com.capgemini.ssc.springintro.bookdemo.aspects.CallMonitoringAspect" />
 
     <!-- 
         Exporter that exposes the CallMonitoringAspect via JMX, based on 

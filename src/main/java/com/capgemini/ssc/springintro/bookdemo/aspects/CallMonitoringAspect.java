@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.aspects;
+package com.capgemini.ssc.springintro.bookdemo.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

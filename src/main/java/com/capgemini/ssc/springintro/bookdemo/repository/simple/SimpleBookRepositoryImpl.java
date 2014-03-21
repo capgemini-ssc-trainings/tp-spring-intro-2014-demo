@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.repository.simple;
+package com.capgemini.ssc.springintro.bookdemo.repository.simple;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 
-import com.capgemini.ssc.training.bookdemo.model.Book;
-import com.capgemini.ssc.training.bookdemo.repository.BookRepository;
+import com.capgemini.ssc.springintro.bookdemo.model.Book;
+import com.capgemini.ssc.springintro.bookdemo.repository.BookRepository;
 
 /**
  * Simple implementation of {@link BookRepository} using {@link ConcurrentMap}

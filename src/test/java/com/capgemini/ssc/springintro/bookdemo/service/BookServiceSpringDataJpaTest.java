@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.service;
+package com.capgemini.ssc.springintro.bookdemo.service;
 
 import javax.inject.Inject;
 
@@ -8,6 +8,8 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.capgemini.ssc.springintro.bookdemo.service.BookService;
 
 /**
  * Integration test using the spring-data-jpa profile.

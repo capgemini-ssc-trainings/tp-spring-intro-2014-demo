@@ -1,4 +1,4 @@
-package com.capgemini.ssc.training.bookdemo.service;
+package com.capgemini.ssc.springintro.bookdemo.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -17,7 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 
-import com.capgemini.ssc.training.bookdemo.model.Book;
+import com.capgemini.ssc.springintro.bookdemo.model.Book;
+import com.capgemini.ssc.springintro.bookdemo.service.BookService;
 
 /**
  * <p>

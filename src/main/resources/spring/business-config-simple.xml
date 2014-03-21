@@ -4,10 +4,10 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="simpleBookRepository"
-        class="com.capgemini.ssc.training.bookdemo.repository.simple.SimpleBookRepositoryImpl" />
+        class="com.capgemini.ssc.springintro.bookdemo.repository.simple.SimpleBookRepositoryImpl" />
 
     <bean id="bookService"
-        class="com.capgemini.ssc.training.bookdemo.service.BookServiceImpl"
+        class="com.capgemini.ssc.springintro.bookdemo.service.BookServiceImpl"
         p:bookRepository-ref="simpleBookRepository" />
 
 </beans>
