@@ -6,7 +6,9 @@
 	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:util="http://www.springframework.org/schema/util"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
 		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
@@ -55,7 +57,27 @@
 			p:jpaProperties-ref="hibernateProperties"/>
     
     	<!-- enables scanning for @Transactional annotations -->
-    	<tx:annotation-driven />
+	    <tx:annotation-driven />
+
+		<!-- 
+			Declarative transaction handling: 
+			- enable this configuration part
+			- remove the tx:annotation-driven part
+		-->	
+		<!-- 
+		<tx:advice id="txAdvice" transaction-manager="transactionManager">
+			<tx:attributes>
+				<tx:method name="*" read-only="true" propagation="REQUIRED" />
+				<tx:method name="save" read-only="false" propagation="REQUIRED" />
+				<tx:method name="delete" read-only="false" propagation="REQUIRED" />
+			</tx:attributes>
+		</tx:advice>
+		<aop:config> 
+			<aop:pointcut id="bookServiceMethods" expression="execution(* com.capgemini.ssc.training.bookdemo.service.BookService.*(..))" /> 
+			<aop:advisor  advice-ref="txAdvice" pointcut-ref="bookServiceMethods" /> 
+		</aop:config>
+		--> 
+    	
     
     	<!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
         <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
