@@ -81,5 +81,8 @@
             
 	</beans>
 
+ 	<beans profile="spring-data-jpa">
+ 		<jpa:repositories base-package="com.capgemini.ssc.training.bookdemo.repository.springdatajpa" />
+ 	</beans>
 
 </beans>

@@ -10,16 +10,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
- * Integration test using the jpa profile.
+ * Integration test using the spring-data-jpa profile.
  * 
  * @see AbstractBookServiceTest AbstractBookServiceTest for more details.
  */
 @ContextConfiguration(locations = { "classpath:spring/business-config.xml",
 	"classpath:spring/tools-config.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles("jpa")
+@ActiveProfiles("spring-data-jpa")
 @DirtiesContext(classMode = ClassMode.AFTER_CLASS)
-public class BookServiceJpaTest extends AbstractBookServiceTest {
+public class BookServiceSpringDataJpaTest extends AbstractBookServiceTest {
     @Inject
     private BookService bookService;
 
