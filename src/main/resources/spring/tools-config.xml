@@ -16,6 +16,10 @@
         <aop:include name="callMonitor" />
     </aop:aspectj-autoproxy>
     
+    <!--
+    <context:load-time-weaver/>
+     -->
+    
     <!-- 
     	xml style aop configuration
     	- enable this part
