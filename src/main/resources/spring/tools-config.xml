@@ -12,9 +12,8 @@
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <aop:aspectj-autoproxy>
-        <aop:include name="callMonitor" />
-    </aop:aspectj-autoproxy>
+
+	<aop:aspectj-autoproxy />
     
     <!--
     <context:load-time-weaver/>
@@ -27,9 +26,9 @@
     -->
     <!-- 
     <aop:config>
-    	<aop:pointcut expression="within(@org.springframework.stereotype.Repository *)" id="callMonitoring"/>
+    	<aop:pointcut expression="execution(* com.capgemini.ssc.springintro.bookdemo.service.BookService.*(..))" id="inBookService"/>
     	<aop:aspect ref="callMonitor">
-    		<aop:around method="monitor" pointcut-ref="callMonitoring"/>
+    		<aop:around method="monitor" pointcut-ref="inBookService"/>
     	</aop:aspect>
     </aop:config>
     -->

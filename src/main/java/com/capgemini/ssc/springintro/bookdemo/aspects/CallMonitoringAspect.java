@@ -54,12 +54,12 @@ public class CallMonitoringAspect {
 	return (this.callCount > 0 ? this.accumulatedCallTime / this.callCount
 		: 0);
     }
-
-    @Pointcut("within(@org.springframework.stereotype.Repository *)")
-    void inRepository() {
+    
+    @Pointcut("execution(* com.capgemini.ssc.springintro.bookdemo.service.BookService.*(..))")
+    void inBookService() {
     }
 
-    @Around("inRepository()")
+    @Around("inBookService()")
     public Object monitor(ProceedingJoinPoint joinPoint) throws Throwable {
 	if (this.enabled) {
 	    logger.info("Monitoring of "
