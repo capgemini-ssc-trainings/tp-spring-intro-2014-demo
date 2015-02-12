@@ -1,19 +1,13 @@
 <!DOCTYPE aspectj PUBLIC
         "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
 <aspectj>
-
 	<weaver>
-
 		<!-- only weave classes in our application-specific packages -->
-		<include within="com.capgemini.ssc.springintro.bookdemo.*" />
-
+		<include within="demo.service.*" />
+		<include within="demo.aop.*" />
 	</weaver>
-
 	<aspects>
-
 		<!-- weave in just this aspect -->
-		<aspect name="com.capgemini.ssc.springintro.bookdemo.aspects.CallMonitoringAspect" />
-
+		<aspect name="demo.aop.CallMonitoringAspect" />
 	</aspects>
-
 </aspectj>
