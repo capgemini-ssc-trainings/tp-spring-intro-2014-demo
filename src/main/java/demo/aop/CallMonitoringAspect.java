@@ -13,56 +13,54 @@ import org.springframework.util.StopWatch;
 @Aspect
 public class CallMonitoringAspect {
 
-	@Autowired
-	CallMonitor callMonitor;
+  @Autowired
+  CallMonitor callMonitor;
 
-	Logger logger = org.slf4j.LoggerFactory
-			.getLogger(CallMonitoringAspect.class);
+  Logger logger = org.slf4j.LoggerFactory.getLogger(CallMonitoringAspect.class);
 
-	@Pointcut("execution(* demo..BookService.*(..))")
-	public void repositiryMethods() {
-	}
-	
-	@Pointcut("@annotation(demo.aop.Monitorable)")
-	public void monitorable() {
-		
-	}
+  @Pointcut("execution(* demo..BookService.*(..))")
+  public void repositoryMethods() {
 
-	@Around("repositiryMethods()")
-	//@Around("monitorable()")
-	public Object monitor(ProceedingJoinPoint proceedingJoinPoint)
-			throws Throwable {
+  }
 
-		if (callMonitor.isEnabled()) {
+  @Pointcut("@within(demo.aop.Monitorable)")
+  public void monitorable() {
 
-			logger.info("Monitoring of " + proceedingJoinPoint.toString()
-					+ " started");
-			StopWatch sw = new StopWatch(proceedingJoinPoint.toString());
+  }
 
-			try {
-				sw.start(proceedingJoinPoint.toShortString());
-				return proceedingJoinPoint.proceed();
+  @Around("repositoryMethods()")
+  // @Around("monitorable()")
+  public Object monitor(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
-			} finally {
+    if (this.callMonitor.isEnabled()) {
 
-				synchronized (this) {
-					callMonitor.registerCall(1);
-				}
+      this.logger.info("Monitoring of " + proceedingJoinPoint.toString() + " started");
+      StopWatch sw = new StopWatch(proceedingJoinPoint.toString());
 
-				sw.stop();
-				logger.info(sw.prettyPrint());
-				logger.info("Monitoring of " + proceedingJoinPoint.toString()
-						+ " finished after " + sw.getLastTaskTimeMillis()
-						+ " ms");
-			}
-		} else {
-			return proceedingJoinPoint.proceed();
-		}
+      try {
+        sw.start(proceedingJoinPoint.toShortString());
+        return proceedingJoinPoint.proceed();
 
-	}
-	
-	public void setCallMonitor(CallMonitor callMonitor) {
-		this.callMonitor = callMonitor;
-	}
+      } finally {
+
+        synchronized (this) {
+          this.callMonitor.registerCall(1);
+        }
+
+        sw.stop();
+        this.logger.info(sw.prettyPrint());
+        this.logger.info("Monitoring of " + proceedingJoinPoint.toString() + " finished after "
+            + sw.getLastTaskTimeMillis() + " ms");
+      }
+    } else {
+      return proceedingJoinPoint.proceed();
+    }
+
+  }
+
+  public void setCallMonitor(CallMonitor callMonitor) {
+
+    this.callMonitor = callMonitor;
+  }
 
 }
